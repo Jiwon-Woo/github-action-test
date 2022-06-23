@@ -16,25 +16,15 @@ jobs:
       JOB_LEVEL_1: 'THIS VALUE COMES FROM JOB LEVEL 1' # job 단위에서 참조 가능
 
     steps:
-    - name: Say Hello World 1
-      shell: bash
-      env:
-        STEP_LEVEL_1: 'THIS VALUE COMES FROM STEP LEVEL 1'
-      run: |
-        echo "Hello World from step 1"
-        echo "STEP_VALUE_1='THIS IS SET BY STEP 1'" >> $GITHUB_ENV
-
-    - name: Say Hello World 2
-      shell: pwsh
-      run: |
-        echo "Hello World from step 2"
-        echo $env:STEP_VALUE_1
-        echo "VALUE: $env:STEP_VALUE_1"
-        echo "VALUE: ${{ env.STEP_VALUE_1 }}"
-
-    - name: Say Hello World 3
+    - name: set output value
+      id: first
       shell: bash
       run: |
-        echo "Hello World from step 2"
-        echo "VALUE: $STEP_VALUE_1"
-        echo "VALUE: ${{ env.STEP_VALUE_1 }}"
+        first_value="This is the first output value"
+
+        echo "::set-output name=my_first_value::$first_value"
+
+    - name: get output value
+      shell: bash
+      run: |
+        echo ${{ steps.first.outputs.my_first_value }}
