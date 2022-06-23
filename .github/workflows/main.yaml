@@ -19,52 +19,22 @@ jobs:
     - name: Say Hello World 1
       shell: bash
       env:
-        SEP_LEVEL_1: 'THIS VALUE COMES FROM STEP LEVEL 1'
+        STEP_LEVEL_1: 'THIS VALUE COMES FROM STEP LEVEL 1'
       run: |
         echo "Hello World from step 1"
-        echo $WORKFLOW_LEVEL
-        echo $JOB_LEVEL_1
-        echo $JOB_LEVEL_2
-        echo $SEP_LEVEL_1
-        echo $SEP_LEVEL_2
+        echo "STEP_VALUE_1='THIS IS SET BY STEP 1'" >> $GITHUB_ENV
 
     - name: Say Hello World 2
       shell: pwsh
       run: |
         echo "Hello World from step 2"
-        echo $WORKFLOW_LEVEL
-        echo $JOB_LEVEL_1
-        echo $JOB_LEVEL_2
-        echo $SEP_LEVEL_1
-        echo $SEP_LEVEL_2
-  
-  second-job:
-    name: 'second job'
+        echo $env:STEP_VALUE_1
+        echo "VALUE: $env:STEP_VALUE_1"
+        echo "VALUE: ${{ env.STEP_VALUE_1 }}"
 
-    runs-on: ubuntu-latest
-
-    env:
-      JOB_LEVEL_2: 'THIS VALUE COMES FROM JOB LEVEL 2' # job 단위에서 참조 가능
-
-    steps:
-    - name: Say Hello World 1
+    - name: Say Hello World 3
       shell: bash
-      env:
-        SEP_LEVEL_2: 'THIS VALUE COMES FROM STEP LEVEL 2'
-      run: |
-        echo "Hello World from step 1"
-        echo $WORKFLOW_LEVEL
-        echo $JOB_LEVEL_1
-        echo $JOB_LEVEL_2
-        echo $SEP_LEVEL_1
-        echo $SEP_LEVEL_2
-    
-    - name: Say Hello World 2
-      shell: pwsh
       run: |
         echo "Hello World from step 2"
-        echo $WORKFLOW_LEVEL
-        echo $JOB_LEVEL_1
-        echo $JOB_LEVEL_2
-        echo $SEP_LEVEL_1
-        echo $SEP_LEVEL_2
+        echo "VALUE: $STEP_VALUE_1"
+        echo "VALUE: ${{ env.STEP_VALUE_1 }}"
