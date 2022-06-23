@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
 
     - name: output value from ubuntu-latest
-      id: first
+      id: third
       shell: bash
       run: |
         echo "HELLO WORLD"
