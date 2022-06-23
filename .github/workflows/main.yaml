@@ -19,7 +19,7 @@ jobs:
 
     steps:
     - name: Setup node.js
-      uses: actions/setup-node@V3
+      uses: actions/setup-node@v3
       with:
        node-version: ${{ matrix.nodejs }}
 
