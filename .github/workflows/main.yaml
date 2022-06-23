@@ -1,6 +1,10 @@
 name: 'My first github action'
 
+# push 이벤트가 발생하면 작동
 on: push
+
+env:
+  WORKFLOW_LEVEL: 'THIS VALUE COMES FROM THE WORKFLOW LEVEL' # workflow 단위로 참조 가능
 
 jobs:
   first-job:
@@ -8,13 +12,59 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      JOB_LEVEL_1: 'THIS VALUE COMES FROM JOB LEVEL 1' # job 단위에서 참조 가능
+
     steps:
     - name: Say Hello World 1
       shell: bash
+      env:
+        SEP_LEVEL_1: 'THIS VALUE COMES FROM STEP LEVEL 1'
       run: |
         echo "Hello World from step 1"
+        echo $WORKFLOW_LEVEL
+        echo $JOB_LEVEL_1
+        echo $JOB_LEVEL_2
+        echo $SEP_LEVEL_1
+        echo $SEP_LEVEL_2
+
+    - name: Say Hello World 2
+      shell: pwsh
+      run: |
+        echo "Hello World from step 2"
+        echo $WORKFLOW_LEVEL
+        echo $JOB_LEVEL_1
+        echo $JOB_LEVEL_2
+        echo $SEP_LEVEL_1
+        echo $SEP_LEVEL_2
+  
+  second-job:
+    name: 'second job'
+
+    runs-on: ubuntu-latest
+
+    env:
+      JOB_LEVEL_2: 'THIS VALUE COMES FROM JOB LEVEL 2' # job 단위에서 참조 가능
+
+    steps:
+    - name: Say Hello World 1
+      shell: bash
+      env:
+        SEP_LEVEL_2: 'THIS VALUE COMES FROM STEP LEVEL 2'
+      run: |
+        echo "Hello World from step 1"
+        echo $WORKFLOW_LEVEL
+        echo $JOB_LEVEL_1
+        echo $JOB_LEVEL_2
+        echo $SEP_LEVEL_1
+        echo $SEP_LEVEL_2
     
     - name: Say Hello World 2
       shell: pwsh
       run: |
         echo "Hello World from step 2"
+        echo $WORKFLOW_LEVEL
+        echo $JOB_LEVEL_1
+        echo $JOB_LEVEL_2
+        echo $SEP_LEVEL_1
+        echo $SEP_LEVEL_2
