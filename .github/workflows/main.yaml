@@ -1,7 +1,7 @@
 name: 'My first github action'
 
-# push 이벤트가 발생하면 작동
-on: push
+# 추천하지는 않는다. push에 사용할 yaml 하나, pull_request에 사용한 yaml 하나를 추천
+on: ['push', 'pull_request']
 
 env:
   WORKFLOW_LEVEL: 'THIS VALUE COMES FROM THE WORKFLOW LEVEL' # workflow 단위로 참조 가능
@@ -10,23 +10,29 @@ jobs:
   first-job:
     name: 'first job'
 
-    strategy:
-      matrix:
-        os: ['windows-latest', 'macos-latest', 'ubuntu-latest']
-        nodejs: ['14.x', '16.x']
+    runs-on: ubuntu-latest
 
-    runs-on: ${{ matrix.os }}
-
-    steps:
-    - name: Setup node.js
-      uses: actions/setup-node@v3
-      with:
-       node-version: ${{ matrix.nodejs }}
-
-
-    - name: output value from ${{ matrix.os }}
+    - name: output value 1
       id: first
       shell: bash
       run: |
-        echo "OS: ${{ matrix.os }}"
-        echo "node.js: ${{ matrix.nodejs }}"
+        echo "HELLO WORLD"
+    
+    - name: output value 2
+      id: second
+      if: github.event_name == 'pull_request'
+      shell: bash
+      run: |
+        echo "HELLO WORLD"
+  
+  second-job:
+    name: 'second job'
+    if: github.event_name == 'pull_request'
+
+    runs-on: ubuntu-latest
+
+    - name: output value from ubuntu-latest
+      id: first
+      shell: bash
+      run: |
+        echo "HELLO WORLD"
