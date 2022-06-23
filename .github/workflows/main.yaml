@@ -16,12 +16,12 @@ jobs:
       JOB_LEVEL_1: 'THIS VALUE COMES FROM JOB LEVEL 1' # job 단위에서 참조 가능
 
     steps:
-    - name: set output value
+    - name: mask value
       id: first
       shell: bash
       run: |
         first_value="This is the first output value"
-
+        echo "::add-mask::$first_value"
         echo "::set-output name=my_first_value::$first_value"
 
     - name: get output value
